@@ -14,29 +14,36 @@ public class InventoryScript : MonoBehaviour
     public System.Action<int> OnNewEnchantmentUpgradeChanged;
     public System.Action<int> OnNewQualityUpgradeChanged;
 
-
+    private void Start()
+    {
+        LoadGame();
+    }
     public void AddCreationSpeedUpgrade()
     {
         CreationSpeedUpgrade++;
         OnCreationSpeedUpgradeChanged?.Invoke(CreationSpeedUpgrade);
+        SaveGame();
     }
 
     public void AddNewMaterialUpgrade()
     {
         NewMaterialUpgrade++;
         OnNewMaterialUpgradeChanged?.Invoke(NewMaterialUpgrade);
+        SaveGame();
     }
 
     public void AddNewEnchantmentUpgrade()
     {
         NewEnchantmentUpgrade++;
         OnNewEnchantmentUpgradeChanged?.Invoke(NewEnchantmentUpgrade);
+        SaveGame();
     }
 
     public void AddNewQualityUpgrade()
     {
         NewQualityUpgrade++;
         OnNewQualityUpgradeChanged?.Invoke(NewQualityUpgrade);
+        SaveGame();
     }
 
     public void AddMoney(float amount)
@@ -45,6 +52,7 @@ public class InventoryScript : MonoBehaviour
         OnMoneyChanged?.Invoke(Money);
 
         Debug.Log("Dinero actual: " + Money);
+        SaveGame();
     }
 
     public void SpendMoney(float amount)
@@ -60,5 +68,33 @@ public class InventoryScript : MonoBehaviour
         {
             Debug.Log("No tienes suficiente dinero para gastar.");
         }
+        SaveGame();
     }
+
+
+    public void SaveGame()
+    {
+        PlayerPrefs.SetFloat("Money", Money);
+
+        PlayerPrefs.SetInt("CreationSpeed", CreationSpeedUpgrade);
+        PlayerPrefs.SetInt("Material", NewMaterialUpgrade);
+        PlayerPrefs.SetInt("Enchantment", NewEnchantmentUpgrade);
+        PlayerPrefs.SetInt("Quality", NewQualityUpgrade);
+        
+
+        PlayerPrefs.Save();
+    }
+
+    public void LoadGame()
+    {
+        Money = PlayerPrefs.GetFloat("Money", 0);
+
+        CreationSpeedUpgrade = PlayerPrefs.GetInt("CreationSpeed", 0);
+        NewMaterialUpgrade = PlayerPrefs.GetInt("Material", 0);
+        NewEnchantmentUpgrade = PlayerPrefs.GetInt("Enchantment", 0);
+        NewQualityUpgrade = PlayerPrefs.GetInt("Quality", 0);
+
+        OnMoneyChanged?.Invoke(Money);
+    }
+
 }

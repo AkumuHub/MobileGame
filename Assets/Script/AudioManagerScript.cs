@@ -78,11 +78,13 @@ public class AudioManagerScript : MonoBehaviour
         musicVolume = volume;
         musicSource.volume = volume;
         PlayerPrefs.SetFloat("MusicVolume", volume);
+        PlayerPrefs.Save();
     }
 
     public void SetSFXVolume(float volume)
     {
         sfxVolume = volume;
         PlayerPrefs.SetFloat("SFXVolume", volume);
+        PlayerPrefs.Save();
     }
 }

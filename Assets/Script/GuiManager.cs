@@ -96,7 +96,15 @@ public class GuiManager : MonoBehaviour
 
 
 
+    public void QuitGame()
+    {
+        Debug.Log("Saliendo del juego...");
 
+        if (inventory != null)
+            inventory.SaveGame();
+
+        Application.Quit();
+    }
 
 
 
